@@ -81,6 +81,12 @@ device		scbus
 device		pass
 device		da
 
+# For Apple USB Ethernet Adapter
+device      miibus
+device      uhci # UHCI PCI->USB interface
+device      ohci # OHCI PCI->USB interface
+device      axe # ASIX Electronics USB Ethernet
+
 # SATA
 device		mvs
 
