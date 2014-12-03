@@ -1006,7 +1006,7 @@ mge_intr_rxtx(void *arg)
 	struct mge_softc *sc = arg;
 	uint32_t int_cause, int_cause_ext;
     
-    if_printf(sc->ifp, "mge_intr_rxtx occured\n");
+    //if_printf(sc->ifp, "mge_intr_rxtx occured\n");
     
 	MGE_GLOBAL_LOCK(sc);
     
@@ -1062,7 +1062,7 @@ mge_intr_rx(void *arg) {
 	struct mge_softc *sc = arg;
 	uint32_t int_cause, int_cause_ext;
     
-    if_printf(sc->ifp, "mge_intr_rx occured\n");
+    //if_printf(sc->ifp, "mge_intr_rx occured\n");
     
 	MGE_RECEIVE_LOCK(sc);
     
@@ -1113,7 +1113,7 @@ mge_intr_rx_locked(struct mge_softc *sc, int count)
 	struct mbuf *mb;
 	int rx_npkts = 0;
     
-	if_printf(sc->ifp, "mge_intr_rx_locked occured\n");
+	//if_printf(sc->ifp, "mge_intr_rx_locked occured\n");
     
 	MGE_RECEIVE_LOCK_ASSERT(sc);
     
@@ -1188,7 +1188,7 @@ mge_intr_tx(void *arg)
 	struct mge_softc *sc = arg;
 	uint32_t int_cause_ext;
     
-    if_printf(sc->ifp, "mge_intr_tx occured\n");
+    //if_printf(sc->ifp, "mge_intr_tx occured\n");
     
 	MGE_TRANSMIT_LOCK(sc);
     
