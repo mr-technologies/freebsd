@@ -51,6 +51,8 @@
 #include <sys/dsl_userhold.h>
 #include <sys/dsl_bookmark.h>
 
+SYSCTL_DECL(_vfs_zfs);
+
 /*
  * The SPA supports block sizes up to 16MB.  However, very large blocks
  * can have an impact on i/o latency (e.g. tying up a spinning disk for
@@ -61,6 +63,9 @@
  * of this setting.
  */
 int zfs_max_recordsize = 1 * 1024 * 1024;
+SYSCTL_INT(_vfs_zfs, OID_AUTO, max_recordsize, CTLFLAG_RWTUN,
+    &zfs_max_recordsize, 0,
+    "Maximum block size.  Expect dragons when tuning this.");
 
 #define	SWITCH64(x, y) \
 	{ \
@@ -404,11 +409,11 @@ dsl_dataset_hold_obj(dsl_pool_t *dp, uint64_t dsobj, void *tag,
 		    offsetof(dmu_sendarg_t, dsa_link));
 
 		if (doi.doi_type == DMU_OTN_ZAP_METADATA) {
-			err = zap_contains(mos, dsobj, DS_FIELD_LARGE_BLOCKS);
-			if (err == 0)
+			int zaperr = zap_contains(mos, dsobj, DS_FIELD_LARGE_BLOCKS);
+			if (zaperr != ENOENT) {
+				VERIFY0(zaperr);
 				ds->ds_large_blocks = B_TRUE;
-			else
-				ASSERT3U(err, ==, ENOENT);
+			}
 		}
 
 		if (err == 0) {
