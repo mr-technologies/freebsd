@@ -1662,8 +1662,8 @@ mge_stop(struct mge_softc *sc)
 	}
     
 	/* Wait for end of transmission */
-	count = 0x100000;
-	while (count--) {
+	count = 0x1001;
+	while (--count) {
 		reg_val = MGE_READ(sc, MGE_PORT_STATUS);
 		if ( !(reg_val & MGE_STATUS_TX_IN_PROG) &&
 		    (reg_val & MGE_STATUS_TX_FIFO_EMPTY))
