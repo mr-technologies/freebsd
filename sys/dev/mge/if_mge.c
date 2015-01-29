@@ -965,8 +965,8 @@ mge_init_locked(void *arg)
 	MGE_WRITE(sc, MGE_PORT_SERIAL_CTRL, reg_val);
 	count = 0x100000;
 	for (;;) {
-		reg_val = MGE_READ(sc, 0xc10);
-		if (reg_val & 1)
+		reg_val = MGE_READ(sc, MGE_PORT_STATUS);
+		if (reg_val & MGE_STATUS_LINKUP)
 			break;
 		DELAY(100);
 		if (--count == 0) {
@@ -1662,11 +1662,11 @@ mge_stop(struct mge_softc *sc)
 	}
     
 	/* Wait for end of transmission */
-	count = 0x1001;
+	count = 0x100001;
 	while (--count) {
-		reg_val = MGE_READ(sc, MGE_PORT_STATUS);
-		if ( !(reg_val & MGE_STATUS_TX_IN_PROG) &&
-		    (reg_val & MGE_STATUS_TX_FIFO_EMPTY))
+		reg_val = MGE_READ(sc, MGE_ETH_PORT_STATUS);
+		if ( !(reg_val & MGE_ETH_STATUS_TX_IN_PROG) &&
+		    (reg_val & MGE_ETH_STATUS_TX_FIFO_EMPTY))
 			break;
 		DELAY(100);
 	}

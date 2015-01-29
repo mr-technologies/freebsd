@@ -228,14 +228,21 @@ struct mge_softc {
 #define PORT_SERIAL_GMII_SPEED_1000	(1 << 23)
 #define PORT_SERIAL_MII_SPEED_100	(1 << 24)
 
-#define MGE_PORT_STATUS			0x444
-#define MGE_STATUS_LINKUP		(1 << 1)
-#define MGE_STATUS_FULL_DUPLEX		(1 << 2)
-#define MGE_STATUS_FLOW_CONTROL		(1 << 3)
-#define MGE_STATUS_1000MB		(1 << 4)
-#define MGE_STATUS_100MB		(1 << 5)
-#define MGE_STATUS_TX_IN_PROG		(1 << 7)
-#define MGE_STATUS_TX_FIFO_EMPTY	(1 << 10)
+#define MGE_ETH_PORT_STATUS             0x444
+#define MGE_ETH_STATUS_RX_FIFO_EMPTY    (1 << 16)
+#define MGE_ETH_STATUS_TX_IN_PROG	    (1 << 0)
+#define MGE_ETH_STATUS_TX_FIFO_EMPTY    (1 << 8)
+
+#define MGE_PORT_STATUS			    0xc10
+#define MGE_STATUS_LINKUP		    (1 << 0)
+#define MGE_STATUS_GMII_SPEED		(1 << 1) /* 0 = 10/100 Mbps: Port speed is 10 Mbps or 100 Mbps according to <MIISpeed>. 1 = 1000 Mbps: Port speed is 1000 Mbps. */
+#define MGE_STATUS_MII_SPEED		(1 << 2) /* 0 = 10: Port speed is 10 Mbps. 1 = 100: Port speed is 100 Mbps. */
+#define MGE_STATUS_FULL_DUPLEX		(1 << 3) /* 0 = half-duplex: Port is in half-duplex mode. 1 = full-duplex: Port is in full-duplex mode. */
+#define MGE_STATUS_RX_FLOW_CONTROL	(1 << 4)
+#define MGE_STATUS_TX_FLOW_CONTROL	(1 << 5)
+#define MGE_STATUS_RX_PAUSE		    (1 << 6)
+#define MGE_STATUS_TX_PAUSE		    (1 << 7)
+#define MGE_STATUS_AUTONEG_DONE		(1 << 11)
 
 #define MGE_TX_QUEUE_CMD	0x448
 #define MGE_ENABLE_TXQ		(1 << 0)
